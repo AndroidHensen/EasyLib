@@ -11,7 +11,7 @@ import com.hensen.easyutils.junjunjun1.ToastUtils
  * @Date: 2021/11/19.
  * @Email: xuyingjun@yy.com
  */
-class JunJunJunAPK : Application() {
+public class JunJunJunAPK : Application() {
 
     override fun onCreate() {
         super.onCreate()
