@@ -2,4 +2,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hensen.easyutils">
 
+    <application android:name=".junjunjun1.app.JunJunJunAPK" />
 </manifest>
