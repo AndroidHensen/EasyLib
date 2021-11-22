@@ -3,12 +3,16 @@ package com.hensen.easyutils.junjunjun1;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Base64;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.ArrayList;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public class SPUtil {
 
@@ -32,69 +36,35 @@ public class SPUtil {
         mEditor = mSp.edit();
     }
 
-    public <T> void putList(String key, List<T> datalist) {
-        if (null == datalist || datalist.size() <= 0)
-            return;
-
-        Gson gson = new Gson();
-        String strJson = gson.toJson(datalist);
-        mEditor.putString(key, strJson);
+    public void putString(String key, String value) {
+        mEditor.putString(key, value);
         mEditor.commit();
     }
 
-    public <T> List<T> getList(String key) {
-        List<T> datalist = new ArrayList<T>();
-        String strJson = getString(key, null);
-        if (null == strJson) {
-            return datalist;
-        }
-        Gson gson = new Gson();
-        datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {
-        }.getType());
-        return datalist;
-    }
-
-    public <T> T getObject(Class<T> clazz) {
-        String key = clazz.getName();
-        String json = getString(key, null);
-        if (TextUtils.isEmpty(json)) {
-            return null;
-        }
-        try {
-            Gson gson = new Gson();
-            return gson.fromJson(json, clazz);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public void putObject(Object object) {
-        String key = object.getClass().getName();
-        Gson gson = new Gson();
-        String json = gson.toJson(object);
-        putString(key, json);
-    }
-
-    public void removeObject(Class<?> clazz) {
-        mEditor.remove(clazz.getName());
-        mEditor.commit();
+    public String getString(String key) {
+        return getString(key, "");
     }
 
     public String getString(String key, String defValue) {
         return mSp.getString(key, defValue);
     }
 
-    public int getInt(String key, int defValue) {
-        return mSp.getInt(key, defValue);
+    public void putBoolean(String key, boolean value) {
+        mEditor.putBoolean(key, value);
+        mEditor.commit();
     }
 
     public boolean getBoolean(String key, boolean defValue) {
         return mSp.getBoolean(key, defValue);
     }
 
-    public void putString(String key, String value) {
-        mEditor.putString(key, value);
+    public void putLong(String key, long value) {
+        mEditor.putLong(key, value);
         mEditor.commit();
+    }
+
+    public long getLong(String key, long defValue) {
+        return mSp.getLong(key, defValue);
     }
 
     public void putInt(String key, int value) {
@@ -102,8 +72,110 @@ public class SPUtil {
         mEditor.commit();
     }
 
-    public void putBoolean(String key, boolean value) {
-        mEditor.putBoolean(key, value);
-        mEditor.commit();
+    public int getInt(String key, int defValue) {
+        return mSp.getInt(key, defValue);
+    }
+
+    public <T extends Serializable> void putObject(String key, T obj) {
+        if (obj == null) {
+            putString(key, "");
+            return;
+        }
+        putString(key, obj2Base64(obj));
+    }
+
+    public <T extends Serializable> T getObject(String key) {
+        return base64ToObj(getString(key));
+    }
+
+    public void putList(String key, List<? extends Serializable> list) {
+        putString(key, obj2Base64(list));
+    }
+
+    public <E extends Serializable> List<E> getList(String key) {
+        return (List<E>) base64ToObj(getString(key));
+    }
+
+    public <K extends Serializable, V> void putMap(String key, Map<K, V> map) {
+        putString(key, obj2Base64(map));
+    }
+
+    public <K extends Serializable, V> Map<K, V> getMap(String key) {
+        return (Map<K, V>) base64ToObj(getString(key));
+    }
+
+    private String obj2Base64(Object obj) {
+        //判断对象是否为空
+        if (obj == null) {
+            return null;
+        }
+        ByteArrayOutputStream baos = null;
+        ObjectOutputStream oos = null;
+        String objectStr = null;
+        try {
+            baos = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(obj);
+            // 将对象放到OutputStream中
+            // 将对象转换成byte数组，并将其进行base64编码
+            objectStr = new String(Base64.encode(baos.toByteArray(), Base64.DEFAULT));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (baos != null) {
+                try {
+                    baos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (oos != null) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return objectStr;
+    }
+
+    private <T> T base64ToObj(String base64) {
+        // 将base64格式字符串还原成byte数组
+        if (TextUtils.isEmpty(base64)) {
+            return null;
+        }
+        byte[] objBytes = Base64.decode(base64.getBytes(), Base64.DEFAULT);
+        ByteArrayInputStream bais = null;
+        ObjectInputStream ois = null;
+        T t = null;
+        try {
+            bais = new ByteArrayInputStream(objBytes);
+            ois = new ObjectInputStream(bais);
+            t = (T) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bais != null) {
+                try {
+                    bais.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ois != null) {
+                try {
+                    ois.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return t;
+    }
+
+    public void removeByKey(String key) {
+        mEditor.remove(key);
+        mEditor.apply();
     }
 }
