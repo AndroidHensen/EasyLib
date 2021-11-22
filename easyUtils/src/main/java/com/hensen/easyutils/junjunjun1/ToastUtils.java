@@ -3,12 +3,6 @@ package com.hensen.easyutils.junjunjun1;
 import android.content.Context;
 import android.widget.Toast;
 
-/**
- * @Desc:
- * @Author: xuyingjun
- * @Date: 2021/11/19.
- * @Email: xuyingjun@yy.com
- */
 
 public class ToastUtils {
 

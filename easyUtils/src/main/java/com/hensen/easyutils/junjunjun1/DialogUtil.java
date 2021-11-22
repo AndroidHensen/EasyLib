@@ -5,12 +5,6 @@ import android.content.DialogInterface;
 
 import androidx.appcompat.app.AlertDialog;
 
-/**
- * @Desc:
- * @Author: xuyingjun
- * @Date: 2021/9/4.
- * @Email: xuyingjun@yy.com
- */
 public class DialogUtil {
 
     public static void showSingleDialog(Context context, String title, String msg, String positive,

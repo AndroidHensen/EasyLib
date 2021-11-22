@@ -5,13 +5,11 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-/**
- * @Desc:
- * @Author: xuyingjun
- * @Date: 2021/9/4.
- * @Email: xuyingjun@yy.com
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class SPUtil {
 
     private SharedPreferences mSp;
@@ -32,6 +30,28 @@ public class SPUtil {
     public SPUtil(Context context) {
         mSp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
         mEditor = mSp.edit();
+    }
+
+    public <T> void putList(String key, List<T> datalist) {
+        if (null == datalist || datalist.size() <= 0)
+            return;
+
+        Gson gson = new Gson();
+        String strJson = gson.toJson(datalist);
+        mEditor.putString(key, strJson);
+        mEditor.commit();
+    }
+
+    public <T> List<T> getList(String key) {
+        List<T> datalist = new ArrayList<T>();
+        String strJson = getString(key, null);
+        if (null == strJson) {
+            return datalist;
+        }
+        Gson gson = new Gson();
+        datalist = gson.fromJson(strJson, new TypeToken<List<T>>() {
+        }.getType());
+        return datalist;
     }
 
     public <T> T getObject(Class<T> clazz) {

@@ -1,13 +1,8 @@
 package com.hensen.easyutils.junjunjun1.data
 
+import com.hensen.easyutils.junjunjun1.SPUtil
 import java.util.*
 
-/**
- * @Desc:
- * @Author: xuyingjun
- * @Date: 2021/11/22.
- * @Email: xuyingjun@yy.com
- */
 object Fruit {
     var fruits: ArrayList<String> = ArrayList()
 
@@ -43,5 +38,13 @@ object Fruit {
         fruits.add("橄榄")
         fruits.add("木瓜")
         fruits.add("山竹")
+    }
+
+    fun save(fruit: MutableList<String>) {
+        SPUtil.getInstance().putList("fruits", fruit)
+    }
+
+    fun get(): MutableList<String>? {
+        return SPUtil.getInstance().getList<String>("fruits")
     }
 }

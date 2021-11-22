@@ -8,12 +8,6 @@ import com.hensen.easyutils.R;
 
 import java.util.List;
 
-/**
- * @Desc:
- * @Author: xuyingjun
- * @Date: 2021/9/13.
- * @Email: xuyingjun@yy.com
- */
 public class StringAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     public StringAdapter(int layoutResId, @Nullable List<String> data) {

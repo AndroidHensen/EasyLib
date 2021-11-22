@@ -2,12 +2,6 @@ package com.hensen.easyutils.junjunjun1;
 
 import android.content.Context;
 
-/**
- * @Desc:
- * @Author: xuyingjun
- * @Date: 2021/10/16.
- * @Email: xuyingjun@yy.com
- */
 public class StringUtil {
 
     private Context context;
