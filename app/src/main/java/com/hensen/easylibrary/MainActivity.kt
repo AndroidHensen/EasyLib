@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import com.hensen.easyutils.junjunjun1.ToastUtils
 import com.hensen.easyutils.junjunjun1.activity.HomeActivity
 
-class MainActivity : HomeActivity() {
+public class MainActivity : HomeActivity() {
     override fun getFragment(): List<Fragment> {
         val l = mutableListOf<Fragment>()
         l.add(Fragment())

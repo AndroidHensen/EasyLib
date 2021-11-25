@@ -45,7 +45,7 @@ dependencies {
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     api 'com.google.code.gson:gson:2.8.5'
-    api 'org.greenrobot:eventbus:3.2.0'
+    api 'com.jeremyliao:live-event-bus-x:1.7.3'
 }
 
 apply plugin: 'com.github.dcendents.android-maven'
