@@ -71,4 +71,8 @@ abstract class HomeActivity : AppCompatActivity() {
             }
         })
     }
+
+    fun jumpItem(position: Int) {
+        viewPager?.setCurrentItem(position)
+    }
 }
