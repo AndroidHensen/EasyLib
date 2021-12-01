@@ -5,13 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import me.kareluo.ui.OptionMenu
-import me.kareluo.ui.OptionMenuView.OnOptionMenuClickListener
-import me.kareluo.ui.PopupMenuView
-import me.kareluo.ui.PopupView
-import java.util.*
+import com.hensen.easyutils.junjunjun1.BubbleUtils
 
 
 class AFragment : Fragment() {
@@ -33,36 +28,15 @@ class AFragment : Fragment() {
         up = view.findViewById(R.id.up)
 
         down?.setOnClickListener {
-            val menuView = PopupMenuView(activity)
-            menuView.setMenuItems(
-                Arrays.asList(
-                    OptionMenu("AAAAA")
-                )
-            );
-            menuView.setSites(PopupView.SITE_BOTTOM);
-            menuView.setOnMenuClickListener(object : OnOptionMenuClickListener {
-                override fun onOptionMenuClick(position: Int, menu: OptionMenu): Boolean {
-                    Toast.makeText(activity, menu.title, Toast.LENGTH_SHORT).show()
-                    return true
-                }
-            })
-            menuView.show(down)
+            down?.let { view ->
+                BubbleUtils.showBottom(view, "AAA")
+            }
         }
+
         up?.setOnClickListener {
-            val menuView = PopupMenuView(activity)
-            menuView.setMenuItems(
-                Arrays.asList(
-                    OptionMenu("AAAAA")
-                )
-            );
-            menuView.setSites(PopupView.SITE_TOP);
-            menuView.setOnMenuClickListener(object : OnOptionMenuClickListener {
-                override fun onOptionMenuClick(position: Int, menu: OptionMenu): Boolean {
-                    Toast.makeText(activity, menu.title, Toast.LENGTH_SHORT).show()
-                    return true
-                }
-            })
-            menuView.show(up)
+            up?.let { view ->
+                BubbleUtils.showUp(view, "AAA")
+            }
         }
     }
 
