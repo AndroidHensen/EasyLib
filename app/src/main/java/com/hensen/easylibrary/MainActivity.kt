@@ -8,7 +8,7 @@ import com.hensen.easyutils.junjunjun1.activity.HomeActivity
 public class MainActivity : HomeActivity() {
     override fun getFragment(): List<Fragment> {
         val l = mutableListOf<Fragment>()
-        l.add(Fragment())
+        l.add(AFragment())
         l.add(Fragment())
         l.add(Fragment())
         return l
