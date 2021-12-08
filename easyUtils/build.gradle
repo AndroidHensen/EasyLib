@@ -47,6 +47,7 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.5'
     api 'com.jeremyliao:live-event-bus-x:1.7.3'
     api 'me.kareluo.ui:popmenu:1.1.0'
+    api 'com.booking:rtlviewpager:1.0.1'
 }
 
 apply plugin: 'com.github.dcendents.android-maven'

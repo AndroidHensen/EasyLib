@@ -5,6 +5,11 @@
     android:layout_gravity="center"
     android:gravity="center">
 
+    <com.hensen.easyutils.junjunjun1.widget.RtlImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/icon_tab_send" />
+
     <Button
         android:id="@+id/down"
         android:layout_width="wrap_content"

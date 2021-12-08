@@ -6,7 +6,7 @@
     android:background="#EDEDED"
     android:orientation="vertical">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.booking.rtlviewpager.RtlViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
