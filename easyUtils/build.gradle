@@ -48,7 +48,6 @@ dependencies {
     api 'com.jeremyliao:live-event-bus-x:1.7.3'
     api 'me.kareluo.ui:popmenu:1.1.0'
     api 'com.booking:rtlviewpager:1.0.1'
-    api 'com.tencent:mmkv:1.2.11'
 }
 
 apply plugin: 'com.github.dcendents.android-maven'
