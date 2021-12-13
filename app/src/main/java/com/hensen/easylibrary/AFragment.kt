@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.hensen.easyutils.junjunjun1.BubbleUtils
+import com.hensen.easyutils.junjunjun1.DialogUtil
 
 
 class AFragment : Fragment() {
@@ -29,7 +30,7 @@ class AFragment : Fragment() {
 
         down?.setOnClickListener {
             down?.let { view ->
-                BubbleUtils.showBottom(view, "AAA")
+                DialogUtil.showDoubleDialog(activity, "AAA", "BBB", "确定", "取消", null, null)
             }
         }
 
