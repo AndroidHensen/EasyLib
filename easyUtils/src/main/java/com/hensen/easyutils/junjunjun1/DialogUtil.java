@@ -1,5 +1,6 @@
 package com.hensen.easyutils.junjunjun1;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -7,6 +8,15 @@ import android.graphics.Color;
 import androidx.appcompat.app.AlertDialog;
 
 public class DialogUtil {
+
+    public static ProgressDialog showLoadingDialog(Context context, String title) {
+        ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setMessage(title);
+        dialog.show();
+        return dialog;
+    }
 
     public static void showSingleDialog(Context context, String title, String msg, String positive,
                                         DialogInterface.OnClickListener listener) {
