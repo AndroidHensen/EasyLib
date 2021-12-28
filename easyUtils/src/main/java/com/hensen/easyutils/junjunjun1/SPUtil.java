@@ -5,12 +5,16 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.google.gson.Gson;
+import com.tencent.mmkv.MMKV;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +27,7 @@ public class SPUtil {
 
     public static void init(Context context) {
         if (instance == null) {
+            MMKV.initialize(context);
             instance = new SPUtil(context);
         }
     }
@@ -94,6 +99,42 @@ public class SPUtil {
 
     public <E extends Serializable> List<E> getList(String key) {
         return (List<E>) base64ToObj(getString(key));
+    }
+
+    public boolean putMMKVList(String key, List<? extends Serializable> list) {
+        MMKV kv = MMKV.defaultMMKV();
+        if (list == null || list.size() == 0) { //清空
+            kv.putInt(key + "size", 0);
+            int size = kv.getInt(key + "size", 0);
+            for (int i = 0; i < size; i++) {
+                if (kv.getString(key + i, null) != null) {
+                    kv.remove(key + i);
+                }
+            }
+        } else {
+            kv.putInt(key + "size", list.size());
+            for (int i = 0; i < list.size(); i++) {
+                kv.remove(key + i);
+                kv.putString(key + i, new Gson().toJson(list.get(i)));
+            }
+        }
+        return kv.commit();
+    }
+
+    public <E extends Serializable> List<E> getMMKVList(String key, E bean) {
+        MMKV kv = MMKV.defaultMMKV();
+        ArrayList<E> list = new ArrayList<E>();
+        int size = kv.getInt(key + "size", 0);
+        for (int i = 0; i < size; i++) {
+            if (kv.getString(key + i, null) != null) {
+                try {
+                    list.add((E) new Gson().fromJson(kv.getString(key + i, null), bean.getClass()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
     }
 
     public <K extends Serializable, V> void putMap(String key, Map<K, V> map) {
