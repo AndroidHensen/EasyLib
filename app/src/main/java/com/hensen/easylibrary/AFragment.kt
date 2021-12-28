@@ -12,6 +12,7 @@ import com.hensen.easyutils.junjunjun1.DialogUtil
 
 class AFragment : Fragment() {
 
+    var dialog: Button? = null
     var down: Button? = null
     var up: Button? = null
 
@@ -25,6 +26,7 @@ class AFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dialog = view.findViewById(R.id.dialog)
         down = view.findViewById(R.id.down)
         up = view.findViewById(R.id.up)
 
@@ -38,6 +40,10 @@ class AFragment : Fragment() {
             up?.let { view ->
                 BubbleUtils.showUp(view, "AAA")
             }
+        }
+
+        dialog?.setOnClickListener {
+            DialogUtil.showCustomDialog(activity, R.layout.fragment_a)
         }
     }
 

@@ -4,10 +4,19 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 
 public class DialogUtil {
+
+    public static View showCustomDialog(Context context, int resId) {
+        View view = LayoutInflater.from(context).inflate(resId, null, false);
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(view).create();
+        dialog.show();
+        return view;
+    }
 
     public static ProgressDialog showLoadingDialog(Context context, String title) {
         ProgressDialog dialog = new ProgressDialog(context);
@@ -56,4 +65,5 @@ public class DialogUtil {
                 .setNegativeButton(negative, listener2)
                 .create();
     }
+
 }
